@@ -1,24 +1,41 @@
+
 /*!
 By: Aziz Moalim
 7.43
-Give me a summary of m_link_type. The result set should contain the count of each m_link_type. 
+
+EXPLAIN BEFORE & AFTER HERE GITHUB FOLDER:aziziteration10explainpictures
+
+
+
+Used LIMIT to stop the query from scanning addiontal rows since we only care about 3 of them and to prevent duplicate - lowers time
+Adding an index:
+
+ALTER TABLE movie_media ADD INDEX idx(m_link_type);
 
 This is the over 100,000 data set:
 This is used on 1,175,493 rows and returns the below time
 Showing rows 0 - 2 (3 total, Query took 0.8430 seconds.)
+
+SELECT m_link_type, count(*)
+FROM movie_media
+GROUP BY m_link_type
+LIMIt 3
+
 
 This is the orginal data:
 
 This is used on 18 rows and returns the below time
 Showing rows 0 - 2 (3 total, Query took 0.0011 seconds.)
 
+SELECT m_link_type, count(*)
+FROM movie_media
+GROUP BY m_link_type;
+
 
 
 */
 
-SELECT m_link_type, count(*)
-FROM movie_media
-GROUP BY m_link_type;
+
 
 /*
 
@@ -45,7 +62,7 @@ rows = 62366 and 1
 Extra = Using temporary
 Showing rows 0 - 24 (83630 total, Query took 0.0018 seconds.)
 [3]
-So I removed DISTINCT and the WHERE CLAUSE
+So I removed DISTINCT and the WHERE CLAUSE also added LIMIT 3 for duplicates
 [4]
 id = 1 and 1
 select_type = simple and simple
@@ -57,7 +74,7 @@ key_len = Null and 4
 ref = Null and omdb2.people_trivia.people_id
 rows = 62366 and 1
 Extra = 
-Showing rows 0 - 24 (83630 total, Query took 0.0016 seconds.)
+Showing rows 0 - 2 (3 total, Query took 0.0011 seconds.)
 
 */
 
